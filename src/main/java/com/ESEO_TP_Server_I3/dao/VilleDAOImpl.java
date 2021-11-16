@@ -22,7 +22,7 @@ public class VilleDAOImpl implements VilleDAO {
 		ResultSet result = null;
 		List<Ville> listVille = new ArrayList<Ville>();
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/maven?user=root&password=");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar");
 			statement = conn.prepareStatement("SELECT * FROM `ville_france`");
 			result = statement.executeQuery();
 			if (result != null) {
