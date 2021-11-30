@@ -16,15 +16,22 @@ public class VilleBLOImpl implements VilleBLO{
 	
 	@Override
 	public List<Ville> getInfoVilles() {
-		//Code metier
-		List<Ville> villes = villeDAO.findVilles();
-		return villes;
+		return villeDAO.findVilles();
 	}
 
 	@Override
 	public Ville getInfoVille(String codeINSEE) {
-		Ville ville = villeDAO.findVille(codeINSEE);
-		return ville ;
-	};
+		return villeDAO.findVille(codeINSEE);
+	}
+
+	@Override
+	public int postVille(Ville ville) {
+		return villeDAO.createVille(ville);
+	}
+
+	@Override
+	public int putVille(Ville ville) {
+		return villeDAO.changeVille(ville);
+	}
 
 }

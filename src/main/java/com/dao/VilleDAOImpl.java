@@ -19,7 +19,7 @@ public class VilleDAOImpl implements VilleDAO {
 	private PreparedStatement statement = null;
 	private ResultSet result = null;
 
-	private ResultSet executionRequeteSQL(String requete) {
+	private ResultSet executionGetSQL(String requete) {
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar");
 			statement = conn.prepareStatement(requete);
@@ -31,6 +31,21 @@ public class VilleDAOImpl implements VilleDAO {
 
 		}
 		return result;
+	}
+	
+	private int executionPostSQL(String requete) {
+		int response = 0;
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar");
+			statement = conn.prepareStatement(requete);
+			response = statement.executeUpdate();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+
+		}
+		return response;
 	}
 
 	private void fermerConnections() {
@@ -53,7 +68,7 @@ public class VilleDAOImpl implements VilleDAO {
 	public List<Ville> findVilles() {
 		List<Ville> listVille = new ArrayList<>();
 		String requete = "SELECT * FROM `ville_france`";
-		ResultSet resultatRequete = executionRequeteSQL(requete);
+		ResultSet resultatRequete = executionGetSQL(requete);
 
 		if (resultatRequete != null) {
 			try {
@@ -81,7 +96,7 @@ public class VilleDAOImpl implements VilleDAO {
 	public Ville findVille(String codeINSEE) {
 		Ville ville = new Ville();
 		String requete = "SELECT * FROM `ville_france` WHERE Code_commune_insee = '" + codeINSEE + "'";
-		ResultSet resultatRequete = executionRequeteSQL(requete);
+		ResultSet resultatRequete = executionGetSQL(requete);
 
 		if (resultatRequete != null) {
 			try {
@@ -101,5 +116,33 @@ public class VilleDAOImpl implements VilleDAO {
 		}
 		fermerConnections();
 		return ville;
+	}
+
+	@Override
+	public int createVille(Ville ville) {
+		int response = 0;
+		String requete = "INSERT INTO `ville_france`(`Code_commune_INSEE`, `Nom_commune`, `Code_postal`, `Libelle_acheminement`, `Ligne_5`, `Latitude`, `Longitude`) "
+				+ "VALUES ('" + ville.getCodeINSEECommune() + "','" + ville.getNomCommune() + "','"
+				+ ville.getCodePostalCommune() + "','" + ville.getLibelleAcheminementCommune() + "','','"
+				+ ville.getLatitudeCommune() + "','" + ville.getLongitudeCommune() + "')";
+		response = executionPostSQL(requete);
+		fermerConnections();
+		return response;
+	}
+
+	@Override
+	public int changeVille(Ville ville) {
+		int response = 0;
+		String requete = "UPDATE `ville_france`"
+				+ "SET `Code_commune_INSEE` = '" + ville.getCodeINSEECommune() 
+				+ "', `Nom_commune` = '" + ville.getNomCommune() 
+				+ "', `Code_postal` = '" + ville.getCodePostalCommune() 
+				+ "', `Libelle_acheminement` = '" + ville.getLibelleAcheminementCommune() 
+				+ "', `Ligne_5` = '"
+				+ "', `Latitude` = '" + ville.getLatitudeCommune() 
+				+ "', `Longitude` = '" + ville.getLongitudeCommune() + "' WHERE `Code_commune_INSEE` = '" + ville.getCodeINSEECommune() + "'";
+		response = executionPostSQL(requete);
+		fermerConnections();
+		return response;
 	}
 }
