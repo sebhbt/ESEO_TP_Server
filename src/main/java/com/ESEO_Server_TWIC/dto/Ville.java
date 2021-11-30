@@ -13,6 +13,7 @@ public class Ville {
 	private String codeINSEECommune;
 	private String nomCommune;
 	private String codePostalCommune;
+	private String libelleAcheminementCommune;
 	private String latitudeCommune;
 	private String longitudeCommune;
 }

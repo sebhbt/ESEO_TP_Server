@@ -31,6 +31,7 @@ public class VilleDAOImpl implements VilleDAO {
 					ville.setCodeINSEECommune(result.getString(1));
 					ville.setNomCommune(result.getString(2));
 					ville.setCodePostalCommune(result.getString(3));
+					ville .setLibelleAcheminementCommune(result.getString(4));
 					ville.setLatitudeCommune(result.getString(6));
 					ville.setLongitudeCommune(result.getString(7));
 					listVille.add(ville);
@@ -69,6 +70,7 @@ public class VilleDAOImpl implements VilleDAO {
 					ville.setCodeINSEECommune(result.getString(1));
 					ville.setNomCommune(result.getString(2));
 					ville.setCodePostalCommune(result.getString(3));
+					ville .setLibelleAcheminementCommune(result.getString(4));
 					ville.setLatitudeCommune(result.getString(6));
 					ville.setLongitudeCommune(result.getString(7));
 				}
