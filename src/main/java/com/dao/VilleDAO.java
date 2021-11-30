@@ -13,4 +13,6 @@ public interface VilleDAO {
 	public int createVille(Ville ville);
 
 	public int changeVille(Ville ville);
+	
+	public int deleteVille(Ville ville);
 }

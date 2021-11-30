@@ -13,4 +13,6 @@ public interface VilleBLO {
 	public int postVille(Ville ville);
 
 	public int putVille(Ville ville);
+
+	public int deleteVille(Ville ville);
 }

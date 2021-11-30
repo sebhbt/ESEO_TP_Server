@@ -59,4 +59,18 @@ public class VilleController {
 			return null;
 		}
 	}
+	
+	@RequestMapping(value = "/ville", method = RequestMethod.DELETE)
+	@ResponseBody
+	public Ville appelDelete(@RequestBody Ville ville) {
+		if (ville != null) {
+			if (villeService.deleteVille(ville) != 0) {
+				return ville;
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+	}
 }

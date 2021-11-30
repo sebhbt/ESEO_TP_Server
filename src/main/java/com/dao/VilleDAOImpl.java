@@ -145,4 +145,15 @@ public class VilleDAOImpl implements VilleDAO {
 		fermerConnections();
 		return response;
 	}
+
+	@Override
+	public int deleteVille(Ville ville) {
+		int response = 0;
+		String requete = "DELETE FROM `ville_france` WHERE `Code_commune_INSEE` = '" + ville.getCodeINSEECommune() + "'";
+		response = executionPostSQL(requete);
+		fermerConnections();
+		return response;
+	}
+	
+	
 }

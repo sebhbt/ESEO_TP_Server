@@ -34,4 +34,8 @@ public class VilleBLOImpl implements VilleBLO{
 		return villeDAO.changeVille(ville);
 	}
 
+	@Override
+	public int deleteVille(Ville ville) {
+		return villeDAO.deleteVille(ville);
+	}
 }
