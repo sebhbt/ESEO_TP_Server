@@ -36,6 +36,9 @@ public class VilleDAOImpl implements VilleDAO {
 					listVille.add(ville);
 				}
 			}
+			result.close();
+			statement.close();
+			conn.close();
 
 		} catch (SQLException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
@@ -65,6 +68,9 @@ public class VilleDAOImpl implements VilleDAO {
 					ville.setLongitudeCommune(result.getString(7));
 				}
 			}
+			result.close();
+			statement.close();
+			conn.close();
 
 		} catch (SQLException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
