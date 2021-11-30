@@ -1,4 +1,4 @@
-package com.ESEO_Server_TWIC.controller;
+package com.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ESEO_Server_TWIC.blo.VilleBLO;
-import com.ESEO_Server_TWIC.dto.Ville;
+import com.blo.VilleBLO;
+import com.dto.Ville;
 
 @RestController
 public class VilleController {

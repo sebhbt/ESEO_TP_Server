@@ -1,8 +1,8 @@
-package com.ESEO_Server_TWIC.dao;
+package com.dao;
 
 import java.util.List;
 
-import com.ESEO_Server_TWIC.dto.Ville;
+import com.dto.Ville;
 
 public interface VilleDAO {
 	

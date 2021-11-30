@@ -1,4 +1,4 @@
-package com.ESEO_Server_TWIC.dao;
+package com.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.ESEO_Server_TWIC.dto.Ville;
+import com.dto.Ville;
 
 @Repository
 public class VilleDAOImpl implements VilleDAO {
@@ -51,7 +51,7 @@ public class VilleDAOImpl implements VilleDAO {
 
 	@Override
 	public List<Ville> findVilles() {
-		List<Ville> listVille = new ArrayList<Ville>();
+		List<Ville> listVille = new ArrayList<>();
 		String requete = "SELECT * FROM `ville_france`";
 		ResultSet resultatRequete = executionRequeteSQL(requete);
 

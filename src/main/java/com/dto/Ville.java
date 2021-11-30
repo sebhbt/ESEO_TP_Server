@@ -1,4 +1,4 @@
-package com.ESEO_Server_TWIC.dto;
+package com.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
