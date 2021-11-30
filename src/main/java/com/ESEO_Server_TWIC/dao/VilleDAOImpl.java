@@ -15,80 +15,91 @@ import com.ESEO_Server_TWIC.dto.Ville;
 @Repository
 public class VilleDAOImpl implements VilleDAO {
 
-	@Override
-	public List<Ville> findVilles() {
-		Connection conn = null;
-		PreparedStatement statement = null;
-		ResultSet result = null;
-		List<Ville> listVille = new ArrayList<Ville>();
+	private Connection conn = null;
+	private PreparedStatement statement = null;
+	private ResultSet result = null;
+
+	private ResultSet executionRequeteSQL(String requete) {
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar");
-			statement = conn.prepareStatement("SELECT * FROM `ville_france`");
+			statement = conn.prepareStatement(requete);
 			result = statement.executeQuery();
-			if (result != null) {
-				while (result.next()) {
-					Ville ville = new Ville();
-					ville.setCodeINSEECommune(result.getString(1));
-					ville.setNomCommune(result.getString(2));
-					ville.setCodePostalCommune(result.getString(3));
-					ville .setLibelleAcheminementCommune(result.getString(4));
-					ville.setLatitudeCommune(result.getString(6));
-					ville.setLongitudeCommune(result.getString(7));
-					listVille.add(ville);
-				}
-			}
 		} catch (SQLException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 
-		} finally {
-			try {
+		}
+		return result;
+	}
+
+	private void fermerConnections() {
+		try {
+			if (result != null) {
 				result.close();
-				statement.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
-		} 
+			if (statement != null) {
+				statement.close();
+			}
+			if (conn != null) {
+				conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<Ville> findVilles() {
+		List<Ville> listVille = new ArrayList<Ville>();
+		String requete = "SELECT * FROM `ville_france`";
+		ResultSet resultatRequete = executionRequeteSQL(requete);
+
+		if (resultatRequete != null) {
+			try {
+				while (resultatRequete.next()) {
+					Ville ville = new Ville();
+					ville.setCodeINSEECommune(result.getString(1));
+					ville.setNomCommune(result.getString(2));
+					ville.setCodePostalCommune(result.getString(3));
+					ville.setLibelleAcheminementCommune(result.getString(4));
+					ville.setLatitudeCommune(result.getString(6));
+					ville.setLongitudeCommune(result.getString(7));
+					listVille.add(ville);
+				}
+			} catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
+			}
+		}
+		fermerConnections();
 		return listVille;
 	}
 
 	@Override
 	public Ville findVille(String codeINSEE) {
-		Connection conn = null;
-		PreparedStatement statement = null;
-		ResultSet result = null;
 		Ville ville = new Ville();
-		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar");
-			statement = conn
-					.prepareStatement("SELECT * FROM `ville_france` WHERE Code_commune_insee = '" + codeINSEE + "'");
-			result = statement.executeQuery();
-			if (result != null) {
-				while (result.next()) {
+		String requete = "SELECT * FROM `ville_france` WHERE Code_commune_insee = '" + codeINSEE + "'";
+		ResultSet resultatRequete = executionRequeteSQL(requete);
+
+		if (resultatRequete != null) {
+			try {
+				while (resultatRequete.next()) {
 					ville.setCodeINSEECommune(result.getString(1));
 					ville.setNomCommune(result.getString(2));
 					ville.setCodePostalCommune(result.getString(3));
-					ville .setLibelleAcheminementCommune(result.getString(4));
+					ville.setLibelleAcheminementCommune(result.getString(4));
 					ville.setLatitudeCommune(result.getString(6));
 					ville.setLongitudeCommune(result.getString(7));
 				}
+			} catch (SQLException ex) {
+				System.out.println("SQLException: " + ex.getMessage());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
 			}
-		} catch (SQLException ex) {
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
-
-		} finally {
-			try {
-				result.close();
-				statement.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} 
+		}
+		fermerConnections();
 		return ville;
 	}
 }
