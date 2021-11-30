@@ -1,4 +1,4 @@
-package com.ESEO_TP_Server_I3.dto;
+package com.ESEO_Server_TWIC.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Ville {
-	private String codeCommune;
+	private String codeINSEECommune;
 	private String nomCommune;
+	private String codePostalCommune;
+	private String latitudeCommune;
+	private String longitudeCommune;
 }

@@ -1,4 +1,4 @@
-package com.ESEO_TP_Server_I3;
+package com.ESEO_Server_TWIC;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
