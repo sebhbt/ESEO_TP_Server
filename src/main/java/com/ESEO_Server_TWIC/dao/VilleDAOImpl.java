@@ -18,7 +18,7 @@ public class VilleDAOImpl implements VilleDAO {
 	@Override
 	public List<Ville> findVilles() {
 		Connection conn = null;
-		PreparedStatement statement;
+		PreparedStatement statement = null;
 		ResultSet result = null;
 		List<Ville> listVille = new ArrayList<Ville>();
 		try {
@@ -36,28 +36,33 @@ public class VilleDAOImpl implements VilleDAO {
 					listVille.add(ville);
 				}
 			}
-			result.close();
-			statement.close();
-			conn.close();
-
 		} catch (SQLException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 
-		}
+		} finally {
+			try {
+				result.close();
+				statement.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} 
 		return listVille;
 	}
 
 	@Override
 	public Ville findVille(String codeINSEE) {
 		Connection conn = null;
-		PreparedStatement statement;
+		PreparedStatement statement = null;
 		ResultSet result = null;
 		Ville ville = new Ville();
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar");
-			statement = conn.prepareStatement("SELECT * FROM `ville_france` WHERE Code_commune_insee = '" + codeINSEE +"'");
+			statement = conn
+					.prepareStatement("SELECT * FROM `ville_france` WHERE Code_commune_insee = '" + codeINSEE + "'");
 			result = statement.executeQuery();
 			if (result != null) {
 				while (result.next()) {
@@ -68,16 +73,20 @@ public class VilleDAOImpl implements VilleDAO {
 					ville.setLongitudeCommune(result.getString(7));
 				}
 			}
-			result.close();
-			statement.close();
-			conn.close();
-
 		} catch (SQLException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 
-		}
+		} finally {
+			try {
+				result.close();
+				statement.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} 
 		return ville;
 	}
 }
