@@ -1,5 +1,7 @@
 package com.dao;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.stereotype.Repository;
 
@@ -22,14 +25,14 @@ public class VilleDAOImpl implements VilleDAO {
 
 	private ResultSet executionGetSQL(String requete) {
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar");
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("src/main/ressources/config.properties"));
+			conn = DriverManager.getConnection(prop.getProperty("sql.url")+"?user="+prop.getProperty("sql.user")+"&password="+prop.getProperty("sql.password"));
+			// String url = "jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar";
 			statement = conn.prepareStatement(requete);
 			result = statement.executeQuery();
-		} catch (SQLException ex) {
+		} catch (SQLException | IOException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
-
 		}
 		return result;
 	}
