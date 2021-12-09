@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.dto.Coordonnees;
 import com.dto.Ville;
 
 @Repository
@@ -69,17 +70,18 @@ public class VilleDAOImpl implements VilleDAO {
 		List<Ville> listVille = new ArrayList<>();
 		String requete = "SELECT * FROM `ville_france`";
 		ResultSet resultatRequete = executionGetSQL(requete);
-
 		if (resultatRequete != null) {
 			try {
 				while (resultatRequete.next()) {
 					Ville ville = new Ville();
+					Coordonnees coordonnees = new Coordonnees();
 					ville.setCodeINSEECommune(result.getString(1));
 					ville.setNomCommune(result.getString(2));
 					ville.setCodePostalCommune(result.getString(3));
 					ville.setLibelleAcheminementCommune(result.getString(4));
-					ville.setLatitudeCommune(result.getString(6));
-					ville.setLongitudeCommune(result.getString(7));
+					coordonnees.setLatitude(result.getString(6));
+					coordonnees.setLongitude(result.getString(7));
+					ville.setCoordonnees(coordonnees);
 					listVille.add(ville);
 				}
 			} catch (SQLException ex) {
@@ -95,6 +97,7 @@ public class VilleDAOImpl implements VilleDAO {
 	@Override
 	public Ville findVille(String codeINSEE) {
 		Ville ville = new Ville();
+		Coordonnees coordonnees = new Coordonnees();
 		String requete = "SELECT * FROM `ville_france` WHERE Code_commune_insee = '" + codeINSEE + "'";
 		ResultSet resultatRequete = executionGetSQL(requete);
 
@@ -105,8 +108,9 @@ public class VilleDAOImpl implements VilleDAO {
 					ville.setNomCommune(result.getString(2));
 					ville.setCodePostalCommune(result.getString(3));
 					ville.setLibelleAcheminementCommune(result.getString(4));
-					ville.setLatitudeCommune(result.getString(6));
-					ville.setLongitudeCommune(result.getString(7));
+					coordonnees.setLatitude(result.getString(6));
+					coordonnees.setLongitude(result.getString(7));
+					ville.setCoordonnees(coordonnees);
 				}
 			} catch (SQLException ex) {
 				System.out.println("SQLException: " + ex.getMessage());
@@ -124,7 +128,7 @@ public class VilleDAOImpl implements VilleDAO {
 		String requete = "INSERT INTO `ville_france`(`Code_commune_INSEE`, `Nom_commune`, `Code_postal`, `Libelle_acheminement`, `Ligne_5`, `Latitude`, `Longitude`) "
 				+ "VALUES ('" + ville.getCodeINSEECommune() + "','" + ville.getNomCommune() + "','"
 				+ ville.getCodePostalCommune() + "','" + ville.getLibelleAcheminementCommune() + "','','"
-				+ ville.getLatitudeCommune() + "','" + ville.getLongitudeCommune() + "')";
+				+ ville.getCoordonnees().getLatitude() + "','" + ville.getCoordonnees().getLongitude() + "')";
 		response = executionPostSQL(requete);
 		fermerConnections();
 		return response;
@@ -139,8 +143,8 @@ public class VilleDAOImpl implements VilleDAO {
 				+ "', `Code_postal` = '" + ville.getCodePostalCommune() 
 				+ "', `Libelle_acheminement` = '" + ville.getLibelleAcheminementCommune() 
 				+ "', `Ligne_5` = '"
-				+ "', `Latitude` = '" + ville.getLatitudeCommune() 
-				+ "', `Longitude` = '" + ville.getLongitudeCommune() + "' WHERE `Code_commune_INSEE` = '" + ville.getCodeINSEECommune() + "'";
+				+ "', `Latitude` = '" + ville.getCoordonnees().getLatitude() 
+				+ "', `Longitude` = '" + ville.getCoordonnees().getLongitude() + "' WHERE `Code_commune_INSEE` = '" + ville.getCodeINSEECommune() + "'";
 		response = executionPostSQL(requete);
 		fermerConnections();
 		return response;
