@@ -2,6 +2,7 @@ package com.blo;
 
 import java.util.List;
 
+import org.codehaus.jettison.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +26,17 @@ public class VilleBLOImpl implements VilleBLO{
 	}
 
 	@Override
-	public int postVille(Ville ville) {
+	public int postVille(String ville) throws JSONException {
 		return villeDAO.createVille(ville);
 	}
 
 	@Override
-	public int putVille(Ville ville) {
+	public int putVille(String ville) throws JSONException{
 		return villeDAO.changeVille(ville);
 	}
 
 	@Override
-	public int deleteVille(Ville ville) {
-		return villeDAO.deleteVille(ville);
+	public int deleteVille(String codeINSEE) {
+		return villeDAO.deleteVille(codeINSEE);
 	}
 }

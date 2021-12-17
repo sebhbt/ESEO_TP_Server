@@ -2,6 +2,8 @@ package com.blo;
 
 import java.util.List;
 
+import org.codehaus.jettison.json.JSONException;
+
 import com.dto.Ville;
 
 public interface VilleBLO {
@@ -10,9 +12,9 @@ public interface VilleBLO {
 	
 	public Ville getInfoVille(String codeINSEE);
 	
-	public int postVille(Ville ville);
+	public int postVille(String ville) throws JSONException;
 
-	public int putVille(Ville ville);
+	public int putVille(String ville) throws JSONException;
 
-	public int deleteVille(Ville ville);
+	public int deleteVille(String codeINSEE);
 }

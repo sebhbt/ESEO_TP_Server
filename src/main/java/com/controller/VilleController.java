@@ -3,6 +3,7 @@ package com.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jettison.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class VilleController {
 
 	@RequestMapping(value = "/ville", method = RequestMethod.POST)
 	@ResponseBody
-	public Ville appelPost(@RequestBody Ville ville) {
+	public String appelPost(@RequestBody String ville) throws JSONException {
 		if (ville != null) {
 			if (villeService.postVille(ville) != 0) {
 				return ville;
@@ -48,7 +49,7 @@ public class VilleController {
 	
 	@RequestMapping(value = "/ville", method = RequestMethod.PUT)
 	@ResponseBody
-	public Ville appelPut(@RequestBody Ville ville) {
+	public String appelPut(@RequestBody String ville) throws JSONException {
 		if (ville != null) {
 			if (villeService.putVille(ville) != 0) {
 				return ville;
@@ -62,10 +63,10 @@ public class VilleController {
 	
 	@RequestMapping(value = "/ville", method = RequestMethod.DELETE)
 	@ResponseBody
-	public Ville appelDelete(@RequestBody Ville ville) {
-		if (ville != null) {
-			if (villeService.deleteVille(ville) != 0) {
-				return ville;
+	public String appelDelete(@RequestParam(required = true, value = "codeINSEE") String codeINSEE) {
+		if (codeINSEE != null) {
+			if (villeService.deleteVille(codeINSEE) != 0) {
+				return null;
 			} else {
 				return null;
 			}

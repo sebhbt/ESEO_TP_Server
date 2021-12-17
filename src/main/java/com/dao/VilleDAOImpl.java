@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import com.dto.Coordonnees;
@@ -126,37 +128,48 @@ public class VilleDAOImpl implements VilleDAO {
 	}
 
 	@Override
-	public int createVille(Ville ville) {
+	public int createVille(String ville) throws JSONException {
 		int response = 0;
+		JSONObject jsonVille = new JSONObject(ville);
+		Ville villeObj = new Ville(jsonVille.getString("codeINSEECommune"), 
+				jsonVille.getString("nomCommune"), 
+				jsonVille.getString("codePostalCommune"), 
+				jsonVille.getString("libelleAcheminementCommune"), 
+				new Coordonnees(jsonVille.getJSONObject("coordonnees").getString("latitude"), jsonVille.getJSONObject("coordonnees").getString("longitude")));
 		String requete = "INSERT INTO `ville_france`(`Code_commune_INSEE`, `Nom_commune`, `Code_postal`, `Libelle_acheminement`, `Ligne_5`, `Latitude`, `Longitude`) "
-				+ "VALUES ('" + ville.getCodeINSEECommune() + "','" + ville.getNomCommune() + "','"
-				+ ville.getCodePostalCommune() + "','" + ville.getLibelleAcheminementCommune() + "','','"
-				+ ville.getCoordonnees().getLatitude() + "','" + ville.getCoordonnees().getLongitude() + "')";
+				+ "VALUES ('" + villeObj.getCodeINSEECommune() + "','" + villeObj.getNomCommune() + "','"
+				+ villeObj.getCodePostalCommune() + "','" + villeObj.getLibelleAcheminementCommune() + "','','"
+				+ villeObj.getCoordonnees().getLatitude() + "','" + villeObj.getCoordonnees().getLongitude() + "')";
 		response = executionPostSQL(requete);
 		fermerConnections();
 		return response;
 	}
 
 	@Override
-	public int changeVille(Ville ville) {
+	public int changeVille(String ville) throws JSONException {
 		int response = 0;
+		JSONObject jsonVille;
+		jsonVille = new JSONObject(ville);
+		Ville villeObj = new Ville(jsonVille.getString("codeINSEECommune"), 
+				jsonVille.getString("nomCommune"), 
+				jsonVille.getString("codePostalCommune"), 
+				jsonVille.getString("libelleAcheminementCommune"), 
+				null);
 		String requete = "UPDATE `ville_france`"
-				+ "SET `Code_commune_INSEE` = '" + ville.getCodeINSEECommune() 
-				+ "', `Nom_commune` = '" + ville.getNomCommune() 
-				+ "', `Code_postal` = '" + ville.getCodePostalCommune() 
-				+ "', `Libelle_acheminement` = '" + ville.getLibelleAcheminementCommune() 
-				+ "', `Ligne_5` = '"
-				+ "', `Latitude` = '" + ville.getCoordonnees().getLatitude() 
-				+ "', `Longitude` = '" + ville.getCoordonnees().getLongitude() + "' WHERE `Code_commune_INSEE` = '" + ville.getCodeINSEECommune() + "'";
+				+ "SET `Code_commune_INSEE` = '" + villeObj.getCodeINSEECommune() 
+				+ "', `Nom_commune` = '" + villeObj.getNomCommune() 
+				+ "', `Code_postal` = '" + villeObj.getCodePostalCommune() 
+				+ "', `Libelle_acheminement` = '" + villeObj.getLibelleAcheminementCommune() 
+				+ "' WHERE `Code_commune_INSEE` = '" + villeObj.getCodeINSEECommune() + "'";
 		response = executionPostSQL(requete);
 		fermerConnections();
 		return response;
 	}
 
 	@Override
-	public int deleteVille(Ville ville) {
+	public int deleteVille(String codeINSEE) {
 		int response = 0;
-		String requete = "DELETE FROM `ville_france` WHERE `Code_commune_INSEE` = '" + ville.getCodeINSEECommune() + "'";
+		String requete = "DELETE FROM `ville_france` WHERE `Code_commune_INSEE` = '" + codeINSEE + "'";
 		response = executionPostSQL(requete);
 		fermerConnections();
 		return response;
