@@ -26,6 +26,8 @@ public class VilleDAOImpl implements VilleDAO {
 	private ResultSet result = null;
 
 	private Properties prop = new Properties();
+	
+	private static String SQLException = "SQLException: ";
 
 	private ResultSet executionGetSQL(String requete) {
 		try {
@@ -47,7 +49,7 @@ public class VilleDAOImpl implements VilleDAO {
 			statement = conn.prepareStatement(requete);
 			response = statement.executeUpdate();
 		} catch (SQLException | IOException ex) {
-			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println(SQLException + ex.getMessage());
 
 		}
 		return response;
@@ -65,7 +67,7 @@ public class VilleDAOImpl implements VilleDAO {
 				conn.close();
 			}
 		} catch (SQLException e) {
-			System.out.println("SQLException: " + e.getMessage());
+			System.out.println(SQLException + e.getMessage());
 		}
 	}
 
@@ -89,9 +91,7 @@ public class VilleDAOImpl implements VilleDAO {
 					listVille.add(ville);
 				}
 			} catch (SQLException ex) {
-				System.out.println("SQLException: " + ex.getMessage());
-				System.out.println("SQLState: " + ex.getSQLState());
-				System.out.println("VendorError: " + ex.getErrorCode());
+				System.out.println(SQLException + ex.getMessage());
 			}
 		}
 		fermerConnections();
@@ -117,9 +117,7 @@ public class VilleDAOImpl implements VilleDAO {
 					ville.setCoordonnees(coordonnees);
 				}
 			} catch (SQLException ex) {
-				System.out.println("SQLException: " + ex.getMessage());
-				System.out.println("SQLState: " + ex.getSQLState());
-				System.out.println("VendorError: " + ex.getErrorCode());
+				System.out.println(SQLException + ex.getMessage());
 			}
 		}
 		fermerConnections();
