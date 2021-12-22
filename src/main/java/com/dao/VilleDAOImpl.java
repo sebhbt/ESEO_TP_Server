@@ -25,12 +25,12 @@ public class VilleDAOImpl implements VilleDAO {
 	private PreparedStatement statement = null;
 	private ResultSet result = null;
 
+	private Properties prop = new Properties();
+
 	private ResultSet executionGetSQL(String requete) {
 		try {
-			Properties prop = new Properties();
 			prop.load(new FileInputStream("src/main/ressources/config.properties"));
 			conn = DriverManager.getConnection(prop.getProperty("sql.url")+"?user="+prop.getProperty("sql.user")+"&password="+prop.getProperty("sql.password"));
-			// String url = "jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar";
 			statement = conn.prepareStatement(requete);
 			result = statement.executeQuery();
 		} catch (SQLException | IOException ex) {
@@ -42,13 +42,12 @@ public class VilleDAOImpl implements VilleDAO {
 	private int executionPostSQL(String requete) {
 		int response = 0;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/maven?user=sonar&password=sonar");
+			prop.load(new FileInputStream("src/main/ressources/config.properties"));
+			conn = DriverManager.getConnection(prop.getProperty("sql.url")+"?user="+prop.getProperty("sql.user")+"&password="+prop.getProperty("sql.password"));
 			statement = conn.prepareStatement(requete);
 			response = statement.executeUpdate();
-		} catch (SQLException ex) {
+		} catch (SQLException | IOException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
 
 		}
 		return response;

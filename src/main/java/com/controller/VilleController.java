@@ -66,7 +66,7 @@ public class VilleController {
 	public String appelDelete(@RequestParam(required = true, value = "codeINSEE") String codeINSEE) {
 		if (codeINSEE != null) {
 			if (villeService.deleteVille(codeINSEE) != 0) {
-				return null;
+				return codeINSEE;
 			} else {
 				return null;
 			}
